@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Screenshot Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      color: #1da1f2;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    #image-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    #image-container img {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    #actions {
+      margin-top: 10px;
+    }
+    #actions button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 14px;
+      background-color: #1da1f2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #actions button:hover {
+      background-color: #1991db;
+    }
+  </style>
+</head>
+<body>
+  <h1>Twitter Screenshot Bot</h1>
+  <p>Enter a Tweet URL to generate a screenshot:</p>
+  <input type="text" id="tweetUrl" placeholder="Enter Tweet URL">
+  <button onclick="generateScreenshot()">Generate Screenshot</button>
+  <div id="result"></div>
+  <div id="image-container" style="display: none;">
+    <img id="screenshot-image" alt="Tweet Screenshot">
+    <div id="actions">
+      <button onclick="downloadImage()">Download Image</button>
+      <button onclick="shareImage()">Share Image</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to extract tweet ID from URL
+    function extractTweetId(url) {
+      const match = url.match(/status\/(\d+)/);
+      return match ? match[1] : null;
+    }
+
+    // Function to generate the screenshot
+    async function generateScreenshot() {
+      const tweetUrl = document.getElementById('tweetUrl').value;
+      const tweetId = extractTweetId(tweetUrl);
+
+      if (!tweetId) {
+        alert('Please enter a valid Tweet URL');
+        return;
+      }
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = 'Generating screenshot...';
+
+      try {
+        const response = await fetch(`/api/screenshot?tweetId=${tweetId}`);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to generate screenshot');
+        }
+
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+
+        // Display the image and actions
+        const imageContainer = document.getElementById('image-container');
+        const screenshotImage = document.getElementById('screenshot-image');
+        screenshotImage.src = imageUrl;
+        imageContainer.style.display = 'block';
+        resultDiv.innerHTML = '';
+      } catch (error) {
+        resultDiv.innerHTML = `Error: ${error.message}`;
+      }
+    }
+
+    // Function to download the image
+    function downloadImage() {
+      const screenshotImage = document.getElementById('screenshot-image');
+      const link = document.createElement('a');
+      link.href = screenshotImage.src;
+      link.download = 'tweet-screenshot.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Function to share the image
+    function shareImage() {
+      const screenshotImage = document.getElementById('screenshot-image');
+      const imageUrl = screenshotImage.src;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Tweet Screenshot',
+          url: imageUrl,
+        })
+          .then(() => console.log('Shared successfully'))
+          .catch((error) => console.error('Error sharing:', error));
+      } else {
+        alert('Sharing is not supported in your browser. You can download the image and share it manually.');
+      }
+    }
+  </script>
+</body>
+</html>

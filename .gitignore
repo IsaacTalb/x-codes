@@ -1,0 +1,22 @@
+# Environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Vercel build files
+.vercel/
+
+# Puppeteer cache
+.puppeteer/
+
+# IDE files
+.vscode/
+.idea/
+
+# macOS files
+.DS_Store
