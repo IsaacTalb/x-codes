@@ -1,0 +1,33 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Set Firebase config
+        run: |
+          firebase functions:config:set twitter.api_key="${{ secrets.TWITTER_API_KEY }}" \
+                                       twitter.api_secret="${{ secrets.TWITTER_API_SECRET }}" \
+                                       twitter.access_token="${{ secrets.TWITTER_ACCESS_TOKEN }}" \
+                                       twitter.access_secret="${{ secrets.TWITTER_ACCESS_SECRET }}"
+
+      - name: Deploy to Firebase
+        run: firebase deploy --only functions --token "${{ secrets.FIREBASE_TOKEN }}"

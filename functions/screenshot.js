@@ -3,10 +3,10 @@ const { TwitterApi } = require('twitter-api-v2');
 const puppeteer = require('puppeteer');
 
 const client = new TwitterApi({
-  appKey: process.env.TWITTER_API_KEY,
-  appSecret: process.env.TWITTER_API_SECRET,
-  accessToken: process.env.TWITTER_ACCESS_TOKEN,
-  accessSecret: process.env.TWITTER_ACCESS_SECRET,
+  appKey: functions.config().twitter.api_key,
+  appSecret: functions.config().twitter.api_secret,
+  accessToken: functions.config().twitter.access_token,
+  accessSecret: functions.config().twitter.access_secret,
 });
 
 exports.screenshot = functions.https.onRequest(async (req, res) => {
