@@ -7,9 +7,13 @@
       }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "api/screenshot.js"
-      }
-    ]
-  }
+    {
+      "src": "/api/(.*)",
+      "dest": "api/screenshot.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "public/index.html"
+    }
+  ]
+}
