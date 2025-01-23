@@ -5,65 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>X Quotes Generator</title>
   <meta name="description" content="X Quotes Generator by Isaac Talb. A simple website to generate screenshot of tweet (X) posts using the Twitter API and Puppeteer.">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f9;
-      color: #333;
-    }
-    h1 {
-      color: #1da1f2;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-    #result {
-      margin-top: 20px;
-    }
-    #image-container {
-      margin-top: 20px;
-      text-align: center;
-    }
-    #image-container img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-    }
-    #actions {
-      margin-top: 10px;
-    }
-    #actions button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 14px;
-      background-color: #1da1f2;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #actions button:hover {
-      background-color: #1991db;
-    }
-  </style>
+  <link rel="icon" href="assets/icons/x-icon.svg" type="image/x-icon">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <h1>Twitter Screenshot Bot</h1>
-  <p>Enter a Tweet URL to generate a screenshot:</p>
-  <input type="text" id="tweetUrl" placeholder="Enter Tweet URL">
-  <button onclick="generateScreenshot()">Generate Screenshot</button>
-  <div id="result"></div>
-  <div id="image-container" style="display: none;">
-    <img id="screenshot-image" alt="Tweet Screenshot">
-    <div id="actions">
-      <button onclick="downloadImage()">Download Image</button>
-      <button onclick="shareImage()">Share Image</button>
+  <header>
+    <h1>" X Quotes Generator "</h1>
+    <br>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="docs.html">Docs</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://github.com/IsaacTalb/x-quotes" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>Enter a Tweet URL to generate a screenshot:</p>
+    <input type="text" id="tweetUrl" placeholder="Enter Tweet URL">
+    <button onclick="generateScreenshot()">Generate Screenshot</button>
+    <div id="result"></div>
+    <div id="image-container" style="display: none;">
+      <img id="screenshot-image" alt="Tweet Screenshot">
+      <div id="actions">
+        <button onclick="downloadImage()">Download Image</button>
+        <button onclick="shareImage()">Share Image</button>
+      </div>
     </div>
-  </div>
+  </main>
+
+  <footer>
+    <p>Developed by <a href="https://www.facebook.com/whoIsIsaacTalb/" target="_blank">Isaac Talb</a></p>
+    <p>Usages: <a href="https://developer.x.com/" target="_blank">Twitter API</a> and <a href="https://pptr.dev/" target="_blank">Puppeteer</a></p>
+    <p>Source Code: <a href="https://github.com/IsaacTalb/x-quotes" target="_blank">GitHub</a></p>
+    <p>&copy; <script>document.write(new Date().getFullYear());</script> X Quotes Generator</p>
+  </footer>
 
   <script>
     // Function to extract tweet ID from URL
