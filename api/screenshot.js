@@ -1,21 +1,7 @@
 require('dotenv').config(); // Load environment variables
-const express = require('express');
 const { TwitterApi } = require('twitter-api-v2');
 const puppeteer = require('puppeteer');
-const path = require('path');
 const fs = require('fs'); // For debugging
-
-const app = express();
-
-// Add CORS headers
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, '../public')));
 
 // Twitter API client
 const client = new TwitterApi({
@@ -65,8 +51,8 @@ async function screenshotTweet(url) {
 const NodeCache = require('node-cache');
 const cache = new NodeCache({ stdTTL: 300 }); // Cache for 5 minutes
 
-// API endpoint
-app.get('/api/screenshot', async (req, res) => {
+// API handler function
+module.exports = async (req, res) => {
   const { tweetId } = req.query;
 
   if (!tweetId) {
@@ -108,17 +94,4 @@ app.get('/api/screenshot', async (req, res) => {
 
     res.status(500).json({ error: 'Sorry, it failed to generate screenshot' });
   }
-});
-
-// Serve index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
-
-module.exports = app;
+};
