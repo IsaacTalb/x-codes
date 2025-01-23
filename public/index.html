@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitter Screenshot Bot</title>
+  <title>X Quotes Generator</title>
+  <meta name="description" content="X Quotes Generator by Isaac Talb. A simple website to generate screenshot of tweet (X) posts using the Twitter API and Puppeteer.">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -97,7 +98,7 @@
         if (!blob.type.startsWith('image/')) {
           throw new Error('Invalid image data received');
         }
-        
+
         const imageUrl = URL.createObjectURL(blob);
 
         // Display the image and actions
