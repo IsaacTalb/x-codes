@@ -92,6 +92,12 @@
         }
 
         const blob = await response.blob();
+
+        // Verify the blob is a valid image
+        if (!blob.type.startsWith('image/')) {
+          throw new Error('Invalid image data received');
+        }
+        
         const imageUrl = URL.createObjectURL(blob);
 
         // Display the image and actions

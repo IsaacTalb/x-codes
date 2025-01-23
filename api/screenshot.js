@@ -41,6 +41,9 @@ async function screenshotTweet(url) {
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
 
+  // Set a user agent to mimic a real browser
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+
   // Set viewport to a reasonable size
   await page.setViewport({ width: 1200, height: 800 });
 
@@ -48,7 +51,7 @@ async function screenshotTweet(url) {
   await page.goto(url, { waitUntil: 'networkidle2' });
 
   // Wait for the tweet content to load
-  await page.waitForSelector('article[role="article"]', { timeout: 5000 });
+  await page.waitForSelector('article[role="article"]', { timeout: 10000 });
 
   // Capture the screenshot
   const screenshot = await page.screenshot({ type: 'png', fullPage: true });
